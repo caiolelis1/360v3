@@ -75,7 +75,9 @@ const Login = () => {
       <section className="AuthPageLinksSection">
         <p className="AuthPageLinksText">
           Não possui uma conta? <br />
-          <a href="/cadastro">Crie uma conta.</a>
+          <a className="StyledLink" href="/cadastro">
+            Crie uma conta.
+          </a>
         </p>
       </section>
     </section>

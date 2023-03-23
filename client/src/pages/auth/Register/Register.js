@@ -187,7 +187,10 @@ const Register = () => {
       </Formik>
       <section className="AuthPageLinksSection">
         <p className="AuthPageLinksText">
-          Já possui conta? <a href="/login">Entre.</a>
+          Já possui conta?{" "}
+          <a className="StyledLink" href="/login">
+            Entre.
+          </a>
         </p>
       </section>
     </section>

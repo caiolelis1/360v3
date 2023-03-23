@@ -1,0 +1,75 @@
+CREATE DATABASE  IF NOT EXISTS `360v3` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `360v3`;
+-- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
+--
+-- Host: db360.ctnkzp1grgfv.sa-east-1.rds.amazonaws.com    Database: 360v3
+-- ------------------------------------------------------
+-- Server version	8.0.28
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
+SET @@SESSION.SQL_LOG_BIN= 0;
+
+--
+-- GTID state at the beginning of the backup 
+--
+
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '';
+
+--
+-- Table structure for table `duties`
+--
+
+DROP TABLE IF EXISTS `duties`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `duties` (
+  `idDuty` int NOT NULL AUTO_INCREMENT,
+  `userId` int NOT NULL,
+  `roleId` int NOT NULL DEFAULT '4',
+  `systemId` int NOT NULL,
+  `subsystemId` int NOT NULL,
+  PRIMARY KEY (`idDuty`),
+  UNIQUE KEY `id_UNIQUE` (`idDuty`),
+  UNIQUE KEY `userId_UNIQUE` (`userId`),
+  KEY `userId_idx` (`userId`),
+  KEY `roleId_idx` (`roleId`),
+  KEY `systemId_idx` (`systemId`),
+  KEY `sybsystemId_idx` (`subsystemId`),
+  CONSTRAINT `dutySystemId` FOREIGN KEY (`systemId`) REFERENCES `systems` (`idSystem`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `roleId` FOREIGN KEY (`roleId`) REFERENCES `roles` (`idRole`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `sybsystemId` FOREIGN KEY (`subsystemId`) REFERENCES `subsystems` (`idSubsystem`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `users` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `duties`
+--
+
+LOCK TABLES `duties` WRITE;
+/*!40000 ALTER TABLE `duties` DISABLE KEYS */;
+INSERT INTO `duties` VALUES (1,1,3,1,1),(3,4,3,2,2),(6,13,3,3,3),(7,14,4,3,3),(8,15,4,3,3),(9,16,4,3,3),(10,17,4,2,2),(11,18,4,2,2),(12,19,4,2,2),(13,20,4,2,2),(14,21,4,2,2),(16,42,3,3,10),(17,43,4,3,10),(18,44,4,3,10),(19,45,4,3,10),(20,46,4,3,10),(21,47,3,3,11),(22,48,4,3,11),(23,49,4,3,11),(24,50,3,3,12),(25,51,4,3,12),(26,52,4,3,12),(27,53,4,3,12),(28,54,4,3,12),(29,55,4,3,12),(30,56,4,3,12),(31,57,3,2,9),(32,58,4,2,9),(33,59,4,2,9),(34,60,4,2,9),(35,61,4,2,9),(36,62,4,2,9),(37,63,3,2,8),(38,64,4,2,8),(39,65,4,2,8),(40,66,4,2,8),(41,67,4,2,8),(42,68,4,2,8),(51,77,4,1,5),(54,80,4,1,6),(55,81,4,1,6),(56,82,2,2,14),(57,83,1,1,14),(58,84,2,3,14),(59,85,2,1,14),(60,86,3,2,7),(61,87,4,2,7),(62,88,4,2,7),(63,89,4,2,7),(64,90,4,2,7),(65,91,4,2,7),(66,92,4,2,7),(67,93,4,2,7),(68,95,4,1,4),(69,96,4,1,4),(70,97,4,1,4),(71,98,4,1,4),(72,99,4,1,1),(73,100,4,1,5),(74,101,4,1,1);
+/*!40000 ALTER TABLE `duties` ENABLE KEYS */;
+UNLOCK TABLES;
+SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-03-23 10:52:58

@@ -12,7 +12,6 @@ import Evaluations from "../pages/Evaluation/Evaluations/Evaluations";
 import Profile from "../pages/Member/Profile";
 import Member from "../pages/Member/Member";
 import Subsystem from "../pages/Subsystem/Subsystem";
-import System from "../pages/System/System";
 import { AuthContext } from "../context/authContexts";
 
 const Private = ({ Item }) => {
@@ -37,7 +36,6 @@ const RouterApp = () => {
               path="/subsistema/:id"
               element={<Private Item={Subsystem} />}
             />
-            <Route path="/sistema/:id" element={<Private Item={System} />} />
             <Route
               path="/avaliacoes"
               element={<Private Item={Evaluations} />}

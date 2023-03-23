@@ -1,0 +1,210 @@
+.AuthPageBox {
+  margin: 100px 0 100px 0;
+  width: 580px !important;
+  height: auto;
+  background-color: #d1dad1;
+  padding: 80px 0px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.25));
+}
+
+.FormikInputDiv {
+  width: 400px;
+  height: 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.FormikInputField {
+  color: black;
+  padding-left: 22px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Montserrat", sans-serif;
+  width: 100%;
+  height: 40px;
+  background-color: #fff3f3;
+  border-radius: 10px;
+  border: solid #fff3f3;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+.FormikInputField::placeholder {
+  position: relative;
+  top: 1px;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 16px;
+  font-weight: 400;
+  font-family: "Montserrat", sans-serif;
+}
+
+.FormikInputField:focus {
+  outline: none;
+  background-color: #fff3f3;
+}
+
+.PlaceholderField {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.FormikSelectDiv {
+  width: 400px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.SelectField {
+  color: black;
+  margin-top: 10px;
+  padding-left: 22px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Montserrat", sans-serif;
+  width: 100%;
+  height: 40px;
+  background-color: #fff3f3;
+  border-radius: 10px;
+  border: solid #fff3f3;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.SelectField:focus {
+  outline: none;
+  background-color: #fff3f3;
+}
+
+option[value="0"][disabled] {
+  display: none;
+}
+
+.FormikErrorMessage {
+  padding: 10px 10px 0 0;
+  color: rgba(255, 0, 0, 0.8);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "Montserrat", sans-serif;
+}
+
+.AuthPageTitleSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+  height: 150px;
+  margin-bottom: 50px;
+}
+
+.AuthPageTitle {
+  justify-self: flex-end;
+  width: 280px !important;
+  font-size: 28px;
+  font-weight: 400;
+  font-family: "Montserrat", sans-serif;
+  border-bottom: 1px solid black;
+}
+
+.AuthPageIMG {
+  padding-left: 70px;
+}
+
+.AuthPageLinksSection {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.AuthPageLinksText {
+  color: black;
+  margin: 10px 0;
+  justify-self: flex-end;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: "Montserrat", sans-serif;
+}
+a {
+  color: black;
+  text-decoration: none;
+  position: relative;
+}
+a::before {
+  content: "";
+  background-color: #43f340;
+  position: absolute;
+  left: 0;
+  bottom: 3px;
+  width: 100%;
+  height: 8px;
+  z-index: -1;
+}
+a:hover::before {
+  bottom: 0;
+  height: 100%;
+}
+a::before {
+  content: "";
+  background-color: #43f340;
+  position: absolute;
+  left: 0;
+  bottom: 3px;
+  width: 100%;
+  height: 8px;
+  z-index: -1;
+  transition: all 0.3s ease-in-out;
+}
+
+br {
+  display: none;
+}
+
+@media screen and (max-width: 650px) {
+  br {
+    display: inline;
+  }
+  .AuthPageBox {
+    margin: 100px 0;
+    width: 350px !important;
+    padding: 40px 0px;
+  }
+  .FormikInputDiv {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .FormikSelectDiv {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .AuthPageTitleSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100% !important;
+    height: 100px;
+  }
+
+  .AuthPageIMG {
+    width: 150px;
+    padding-left: 30px;
+  }
+}

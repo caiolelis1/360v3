@@ -1,10 +1,11 @@
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 
+import "../../../css/styles.css";
+import logo from "../../../assets/logo.svg";
 import { AuthContext } from "../../../context/authContexts";
-import { Button, Card, CardBody, CardTitle, Col, Container } from "reactstrap";
 
 const Login = () => {
   const { login } = useContext(AuthContext);
@@ -31,54 +32,56 @@ const Login = () => {
   };
 
   return (
-    <Container>
-      <Col xl={{ span: 8, offset: 2 }} className="col-8">
-        <Card>
-          <CardTitle>
-            <h1 className="text-center">Login</h1>
-          </CardTitle>
-          <CardBody>
-            <Formik
-              initialValues={{}}
-              onSubmit={handleLogin}
-              validationSchema={validationLogin}
-            >
-              <Form className="login-form">
-                <div className="mb-3">
-                  <Field
-                    name="username"
-                    className="form-control"
-                    placeholder="Nome de usuário"
-                  />
-                  <ErrorMessage
-                    component="span"
-                    name="username"
-                    className="form-error"
-                  />
-                </div>
-                <div className="login-form-group">
-                  <Field
-                    type="password"
-                    name="password"
-                    className="form-control"
-                    placeholder="Senha"
-                  />
-                  <ErrorMessage
-                    component="span"
-                    name="password"
-                    className="form-error"
-                  />
-                </div>
-                {err && err}
-                <Button className="button" type="submit">
-                  Login
-                </Button>
-              </Form>
-            </Formik>
-          </CardBody>
-        </Card>
-      </Col>
-    </Container>
+    <section className="DefaultPage">
+      <section className="AuthPageBox">
+        <section className="AuthPageTitleSection">
+          <img src={logo} alt="Logo TESLA - UFMG" className="AuthPageIMG" />
+          <h1 className="AuthPageTitle">Login</h1>
+        </section>
+        <Formik
+          initialValues={{}}
+          onSubmit={handleLogin}
+          validationSchema={validationLogin}
+        >
+          <Form>
+            <div className="FormikInputDiv">
+              <Field
+                name="username"
+                className="FormikInputField"
+                placeholder="Nome de usuário"
+              />
+              <div className="FormikErrorMessage">
+                <ErrorMessage name="username" />
+              </div>
+            </div>
+            <div className="FormikInputDiv">
+              <Field
+                type="password"
+                name="password"
+                className="FormikInputField"
+                placeholder="Senha"
+              />
+              <div className="FormikErrorMessage">
+                <ErrorMessage name="password" />
+              </div>
+            </div>
+            {err && err}
+            <div className="SubmitButtonDiv">
+              <button className="SubmitButton" type="submit">
+                Login
+              </button>
+            </div>
+          </Form>
+        </Formik>
+        <section className="AuthPageLinksSection">
+          <p className="AuthPageLinksText">
+            Não possui uma conta?
+            <br />
+            <a href="/cadastro">Crie uma conta.</a>
+          </p>
+        </section>
+      </section>
+    </section>
   );
 };
 

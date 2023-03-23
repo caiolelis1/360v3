@@ -1,6 +1,7 @@
 import jwtDecode from "jwt-decode";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/icon.png";
 import {
   Navbar,
   NavbarBrand,
@@ -32,40 +33,48 @@ const NavbarComponent = () => {
   };
 
   return (
-    <Navbar expand="lg" color="dark">
-      <Container>
-        <NavbarToggler onClick={toggle}>
-          <span className="navbar-toggler-bar navbar-kebab"></span>
-          <span className="navbar-toggler-bar navbar-kebab"></span>
-          <span className="navbar-toggler-bar navbar-kebab"></span>
-        </NavbarToggler>
-        <Collapse isOpen={state.isOpen} navbar>
-          <Nav navbar>
-            <NavItem>
-              <NavLink>
-                <a href="/perfil">Perfil</a>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink>
-                <a href="/avaliacoes">Avaliações</a>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink>
-                <a href={"/subsistema/" + user.subsystem}>Subsistema</a>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink>
-                <a href="" onClick={() => handleLogout()}>
-                  Logout
-                </a>
-              </NavLink>
-            </NavItem>
-          </Nav>
-        </Collapse>
-      </Container>
+    <Navbar expand="lg" color="light">
+      <NavbarBrand href="/">
+        <img
+          alt="Logo TESLA - UFMG"
+          src={logo}
+          style={{
+            height: 60,
+            width: 60,
+          }}
+        />
+      </NavbarBrand>
+      <NavbarToggler onClick={toggle} className="NavbarToggle">
+        <span className="navbar-toggler-bar navbar-kebab"></span>
+        <span className="navbar-toggler-bar navbar-kebab"></span>
+        <span className="navbar-toggler-bar navbar-kebab"></span>
+      </NavbarToggler>
+      <Collapse isOpen={state.isOpen} navbar className="Navbar">
+        <Nav navbar>
+          <NavItem>
+            <NavLink>
+              <a href="/perfil">Perfil</a>
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink>
+              <a href="/avaliacoes">Avaliações</a>
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink>
+              <a href={"/subsistema/" + user.subsystem}>Subsistema</a>
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink>
+              <a href="" onClick={() => handleLogout()}>
+                Logout
+              </a>
+            </NavLink>
+          </NavItem>
+        </Nav>
+      </Collapse>
     </Navbar>
   );
 };

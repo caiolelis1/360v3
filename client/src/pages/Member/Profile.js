@@ -57,7 +57,7 @@ const Profile = () => {
   }, [member]);
 
   return (
-    <>
+    <section className="DefaultPage">
       <NavbarComponent />
       <div className="col-10 mx-auto mt-5">
         <Card>
@@ -122,7 +122,7 @@ const Profile = () => {
           </Row>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

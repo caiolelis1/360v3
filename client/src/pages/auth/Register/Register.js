@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
-import { Button, Card, CardTitle, Container, Col, CardBody } from "reactstrap";
+import axios from "axios";
+
+import "../../../css/styles.css";
+import logo from "../../../assets/logo.svg";
 
 const initialValues = { system: "1", subsystem: "1" };
 
@@ -73,128 +75,122 @@ const Register = () => {
   }, [system]);
 
   return (
-    <Container>
-      <Col>
-        <Card>
-          <CardTitle>
-            <h1 className="text-center">Cadastro</h1>
-          </CardTitle>
-          <CardBody>
-            <Formik
-              initialValues={initialValues}
-              onSubmit={handleClick}
-              validationSchema={validationRegister}
-            >
-              {({ values }) => {
-                getFormData(values);
-                return (
-                  <Form className="login-form">
-                    <div className="mb-3">
-                      <Field
-                        name="username"
-                        className="form-control"
-                        placeholder="Nome de usuário"
-                      />
-                      <ErrorMessage
-                        component="span"
-                        name="username"
-                        className="form-error"
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <Field
-                        type="password"
-                        name="password"
-                        className="form-control"
-                        placeholder="Senha"
-                      />
-                      <ErrorMessage
-                        component="span"
-                        name="password"
-                        className="form-error"
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <Field
-                        type="password"
-                        name="confirmPassword"
-                        className="form-control"
-                        placeholder="Confirmar Senha"
-                      />
-                      <ErrorMessage
-                        component="span"
-                        name="confirmPassword"
-                        className="form-error"
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <Field
-                        type="email"
-                        name="email"
-                        className="form-control"
-                        placeholder="E-mail"
-                      />
-                      <ErrorMessage
-                        component="span"
-                        name="email"
-                        className="form-error"
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <Field
-                        type="text"
-                        name="name"
-                        className="form-control"
-                        placeholder="Nome"
-                      />
-                      <ErrorMessage
-                        component="span"
-                        name="name"
-                        className="form-error"
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label for="inputSystem">Sistema:</label>
-                      <Field
-                        as="select"
-                        name="system"
-                        id="inputSystem"
-                        className="form-control"
-                      >
-                        {systems?.map((system) => (
-                          <option value={system.idSystem}>
-                            {system.nameSystem}
-                          </option>
-                        ))}
-                      </Field>
-                    </div>
-                    <div className="mb-3">
-                      <label for="inputSubsystem">Subsistema:</label>
-                      <Field
-                        as="select"
-                        name="subsystem"
-                        id="inputSubsystem"
-                        className="form-control"
-                      >
-                        {subsystems?.map((subsystem) => (
-                          <option value={subsystem.idSubsystem}>
-                            {subsystem.nameSubsystem}
-                          </option>
-                        ))}
-                      </Field>
-                    </div>
-                    {err && err}
-                    <Button className="button" type="submit">
-                      Cadastrar
-                    </Button>
-                  </Form>
-                );
-              }}
-            </Formik>
-          </CardBody>
-        </Card>
-      </Col>
-    </Container>
+    <section className="AuthPageBox">
+      <section className="AuthPageTitleSection">
+        <img src={logo} alt="Logo TESLA - UFMG" className="AuthPageIMG" />
+        <h1 className="AuthPageTitle">Cadastro</h1>
+      </section>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleClick}
+        validationSchema={validationRegister}
+      >
+        {({ values }) => {
+          getFormData(values);
+          return (
+            <Form>
+              <div className="FormikInputDiv">
+                <Field
+                  name="username"
+                  className="FormikInputField"
+                  placeholder="Nome de usuário"
+                />
+                <div className="FormikErrorMessage">
+                  <ErrorMessage name="username" />
+                </div>
+              </div>
+              <div className="FormikInputDiv">
+                <Field
+                  type="password"
+                  name="password"
+                  className="FormikInputField"
+                  placeholder="Senha"
+                />
+                <div className="FormikErrorMessage">
+                  <ErrorMessage name="password" />
+                </div>
+              </div>
+              <div className="FormikInputDiv">
+                <Field
+                  type="password"
+                  name="confirmPassword"
+                  className="FormikInputField"
+                  placeholder="Confirmar Senha"
+                />
+                <div className="FormikErrorMessage">
+                  <ErrorMessage name="confirmPassword" />
+                </div>
+              </div>
+              <div className="FormikInputDiv">
+                <Field
+                  type="email"
+                  name="email"
+                  className="FormikInputField"
+                  placeholder="E-mail"
+                />
+                <div className="FormikErrorMessage">
+                  <ErrorMessage name="email" />
+                </div>
+              </div>
+              <div className="FormikInputDiv">
+                <Field
+                  type="text"
+                  name="name"
+                  className="FormikInputField"
+                  placeholder="Nome"
+                />
+                <div className="FormikErrorMessage">
+                  <ErrorMessage name="name" />
+                </div>
+              </div>
+              <div className="FormikSelectDiv">
+                <label className="SelectLabel" for="inputSystem">
+                  Sistema:
+                </label>
+                <Field
+                  as="select"
+                  name="system"
+                  id="inputSystem"
+                  className="SelectField"
+                >
+                  {systems?.map((system) => (
+                    <option value={system.idSystem}>{system.nameSystem}</option>
+                  ))}
+                </Field>
+              </div>
+              <div className="FormikSelectDiv">
+                <label className="SelectLabel" for="inputSubsystem">
+                  Subsistema:
+                </label>
+                <Field
+                  as="select"
+                  name="subsystem"
+                  id="inputSubsystem"
+                  className="SelectField"
+                >
+                  {subsystems?.map((subsystem) => (
+                    <option value={subsystem.idSubsystem}>
+                      {subsystem.nameSubsystem}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+              {err && err}
+              <div className="SubmitButtonDiv">
+                <button className="SubmitButton" type="submit">
+                  Cadastrar
+                </button>
+              </div>
+            </Form>
+          );
+        }}
+      </Formik>
+      <section className="AuthPageLinksSection">
+        <p className="AuthPageLinksText">
+          Já possui conta?<a href="/login">Entre.</a>
+        </p>
+      </section>
+    </section>
   );
 };
 

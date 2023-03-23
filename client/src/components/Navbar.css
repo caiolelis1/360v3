@@ -1,0 +1,43 @@
+.NavbarContainer {
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.25));
+}
+
+.Navbar {
+  padding-left: 50px;
+}
+.NavbarToggle {
+  color: black;
+}
+.navbar .navbar-toggler-bar {
+  display: block;
+  position: relative;
+  width: 22px;
+  height: 1px;
+  border-radius: 1px;
+  background: black;
+}
+.navbar .navbar-toggler-bar.navbar-kebab {
+  height: 4px;
+  width: 4px;
+  margin-bottom: 3px;
+  border-radius: 50%;
+}
+.navbar .navbar-toggler-bar + .navbar-toggler-bar {
+  margin-top: 7px;
+}
+.navbar .navbar-toggler-bar + .navbar-toggler-bar.navbar-kebab {
+  margin-top: 0px;
+}
+.navbar .navbar-toggler-bar.bar2 {
+  width: 17px;
+  transition: width 0.2s linear;
+}
+.navbar .toggled .navbar-toggler-bar {
+  width: 24px;
+}
+.navbar .toggled .navbar-toggler-bar + .navbar-toggler-bar {
+  margin-top: 5px;
+}
+.navbar-toggler:focus {
+  color: transparent !important;
+}

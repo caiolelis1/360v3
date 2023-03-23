@@ -22,6 +22,7 @@ const NavbarComponent = () => {
   const navigate = useNavigate();
 
   const toggle = () => {
+    console.log("abc", "oi");
     setState({
       isOpen: !state.isOpen,
     });
@@ -33,49 +34,51 @@ const NavbarComponent = () => {
   };
 
   return (
-    <Navbar expand="lg" color="light">
-      <NavbarBrand href="/">
-        <img
-          alt="Logo TESLA - UFMG"
-          src={logo}
-          style={{
-            height: 60,
-            width: 60,
-          }}
-        />
-      </NavbarBrand>
-      <NavbarToggler onClick={toggle} className="NavbarToggle">
-        <span className="navbar-toggler-bar navbar-kebab"></span>
-        <span className="navbar-toggler-bar navbar-kebab"></span>
-        <span className="navbar-toggler-bar navbar-kebab"></span>
-      </NavbarToggler>
-      <Collapse isOpen={state.isOpen} navbar className="Navbar">
-        <Nav navbar>
-          <NavItem>
-            <NavLink>
-              <a href="/perfil">Perfil</a>
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink>
-              <a href="/avaliacoes">Avaliações</a>
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink>
-              <a href={"/subsistema/" + user.subsystem}>Subsistema</a>
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink>
-              <a href="" onClick={() => handleLogout()}>
-                Logout
-              </a>
-            </NavLink>
-          </NavItem>
-        </Nav>
-      </Collapse>
-    </Navbar>
+    <div className="NavbarContainer">
+      <Navbar expand="lg" color="light">
+        <NavbarBrand href="/">
+          <img
+            alt="Logo TESLA - UFMG"
+            src={logo}
+            style={{
+              height: 60,
+              width: 60,
+            }}
+          />
+        </NavbarBrand>
+        <NavbarToggler onClick={toggle} className="NavbarToggle">
+          <span className="navbar-toggler-bar navbar-kebab"></span>
+          <span className="navbar-toggler-bar navbar-kebab"></span>
+          <span className="navbar-toggler-bar navbar-kebab"></span>
+        </NavbarToggler>
+        <Collapse isOpen={state.isOpen} navbar className="Navbar">
+          <Nav navbar>
+            <NavItem>
+              <NavLink>
+                <a href="/perfil">Perfil</a>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <a href="/avaliacoes">Avaliações</a>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <a href={"/subsistema/" + user.subsystem}>Subsistema</a>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <a href="" onClick={() => handleLogout()}>
+                  Logout
+                </a>
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </Navbar>
+    </div>
   );
 };
 

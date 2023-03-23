@@ -128,6 +128,9 @@
     border-radius: 10px;
     filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.25));
   }
+  .EvaluationsCardBody {
+    width: 150px;
+  }
   .EvaluationsContent {
     display: flex;
     align-items: space-between;
@@ -155,5 +158,8 @@
   }
   .form-check-label {
     width: 220px;
+  }
+  .EvaluationButton {
+    margin-bottom: 0 !important;
   }
 }

@@ -74,8 +74,7 @@ const Login = () => {
       </Formik>
       <section className="AuthPageLinksSection">
         <p className="AuthPageLinksText">
-          Não possui uma conta?
-          <br />
+          Não possui uma conta? <br />
           <a href="/cadastro">Crie uma conta.</a>
         </p>
       </section>

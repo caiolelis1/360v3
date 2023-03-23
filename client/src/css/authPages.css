@@ -98,7 +98,7 @@ option[value="0"][disabled] {
 .AuthPageTitleSection {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 100% !important;
   height: 150px;
   margin-bottom: 50px;
@@ -178,7 +178,7 @@ br {
     padding: 40px 0px;
   }
   .FormikInputDiv {
-    width: 300px;
+    width: 280px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -187,7 +187,7 @@ br {
   }
 
   .FormikSelectDiv {
-    width: 300px;
+    width: 280px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -196,11 +196,13 @@ br {
   }
 
   .AuthPageTitleSection {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 100% !important;
     height: 100px;
+  }
+
+  .AuthPageTitle {
+    font-size: 22px;
+    width: 180px !important;
   }
 
   .AuthPageIMG {

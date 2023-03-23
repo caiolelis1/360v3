@@ -1,0 +1,159 @@
+.EvaluationsBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  width: 900px;
+  margin: 70px auto;
+  padding-bottom: 25px;
+  background-color: #dddddd;
+  border-radius: 20px;
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.25));
+}
+.EvaluationsTitle {
+  align-self: flex-end;
+  justify-self: flex-end;
+  width: 860px;
+  font-size: 28px;
+  font-weight: 400;
+  margin: 20px 0 40px 0;
+  font-family: "Montserrat", sans-serif;
+  border-bottom: 1px solid black;
+}
+.EvaluationsContent {
+  display: flex !important;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 0 30px;
+  padding-bottom: 40px;
+}
+.EvaluationsCard {
+  width: 180px;
+  margin: 15px;
+  padding: 5px;
+  background-color: white;
+  border-radius: 10px;
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.25));
+}
+.EvaluationsCardBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  height: 120px;
+}
+.CardButton {
+  background-color: #43f340;
+  border: solid #43f340;
+  border-radius: 7.5px;
+  margin-top: 5px;
+  align-self: flex-end;
+  justify-self: flex-end;
+}
+.CardButton:disabled {
+  color: black;
+  background-color: gray;
+  border: solid gray;
+  opacity: 70%;
+}
+.CardButton:hover:enabled {
+  background-color: #41c23f;
+  border: solid #41c23f;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  cursor: pointer;
+}
+.CardButton:target:enabled {
+  background-color: #47ff44;
+  border: solid #47ff44;
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
+}
+.EvaluationAlert {
+  text-align: center;
+}
+.EvaluationQuestionTitle {
+  font-size: 22px;
+  text-align: center;
+  color: black;
+}
+.EvaluationQuestionContainer {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  margin: 0 20px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid gray;
+}
+.EvaluationTextArea {
+  width: 500px;
+  height: 80px;
+  overflow: auto;
+  resize: none;
+  outline: none;
+}
+.MessageCheckbox {
+  text-align: end;
+  margin-right: 30px;
+}
+
+.EvaluationButton {
+  margin-left: auto;
+  margin-top: 40px;
+  margin-right: 35px;
+}
+
+@media screen and (max-width: 900px) {
+  .EvaluationsBox {
+    flex-wrap: wrap;
+    width: 350px;
+    margin: 40px auto;
+  }
+  .EvaluationsTitle {
+    align-self: flex-end;
+    justify-self: flex-end;
+    width: 325px;
+    font-size: 22px;
+    font-weight: 400;
+    margin: 20px 0 40px 0;
+    font-family: "Montserrat", sans-serif;
+    border-bottom: 1px solid black;
+  }
+  .EvaluationsCard {
+    width: 200px;
+    margin: 15px;
+    padding: 5px;
+    background-color: white;
+    border-radius: 10px;
+    filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.25));
+  }
+  .EvaluationsContent {
+    display: flex;
+    align-items: space-between;
+    justify-content: center;
+  }
+  .card-body {
+    width: 350px !important;
+  }
+  .EvaluationQuestionTitle {
+    font-size: 18px;
+  }
+  .EvaluationQuestionContainer {
+    align-items: flex-start;
+  }
+  .EvaluationRadioBoxes {
+    padding-left: 10px;
+    padding-top: 20px;
+    flex-wrap: nowrap;
+    text-align: start;
+    width: 160px;
+  }
+  .EvaluationTextArea {
+    margin-top: 20px;
+    width: 270px;
+  }
+  .form-check-label {
+    width: 220px;
+  }
+}

@@ -28,38 +28,40 @@ const Evaluations = () => {
   }, [user]);
 
   return (
-    <>
+    <section className="DefaultPage">
       <NavbarComponent />
-      <div className="mt-5 col-lg-10 col-sm-12 mx-auto">
-        <h1 className="text-center">Avaliações</h1>
-        <Row className="mx-auto d-flex ">
+      <div className="EvaluationsBox">
+        <h1 className="EvaluationsTitle">Avaliações</h1>
+        <div className="EvaluationsContent">
           {evaluatees.map((evaluatee) => (
-            <Col lg={4}>
-              <Card>
-                <CardBody>
-                  <p>
-                    <h5>{evaluatee.name}</h5>
-                    <p>{evaluatee.nameRole}</p>
-
-                    <p>
-                      {evaluatee.evaluated ? (
-                        <Button color="primary" disabled>
-                          Já foi avaliado
-                        </Button>
-                      ) : (
-                        <a href={"/avaliacao/" + evaluatee.userId}>
-                          <Button color="primary">Avaliar</Button>
-                        </a>
-                      )}
-                    </p>
-                  </p>
-                </CardBody>
-              </Card>
-            </Col>
+            <Card className="EvaluationsCard">
+              <CardBody>
+                <div className="EvaluationsCardBody">
+                  <h5>{evaluatee.name}</h5>
+                  <p>{evaluatee.nameRole}</p>
+                  {evaluatee.evaluated ? (
+                    <button className="CardButton" disabled>
+                      Já avaliado
+                    </button>
+                  ) : (
+                    <button
+                      className="CardButton"
+                      color="primary"
+                      onClick={() =>
+                        (window.location.href =
+                          "/avaliacao/" + evaluatee.userId)
+                      }
+                    >
+                      Avaliar
+                    </button>
+                  )}
+                </div>
+              </CardBody>
+            </Card>
           ))}
-        </Row>
+        </div>
       </div>
-    </>
+    </section>
   );
 };
 

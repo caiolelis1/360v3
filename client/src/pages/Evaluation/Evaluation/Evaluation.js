@@ -1,15 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import {
-  FormGroup,
-  Label,
-  Input,
-  Card,
-  CardBody,
-  CardTitle,
-  Button,
-} from "reactstrap";
+import { FormGroup, Label, Input, CardBody, Button, Alert } from "reactstrap";
 import { AuthContext } from "../../../context/authContexts";
 import jwtDecode from "jwt-decode";
 import NavbarComponent from "../../../components/Navbar";
@@ -103,141 +95,134 @@ const Evaluation = () => {
   }, [member]);
 
   return (
-    <>
+    <section className="DefaultPage">
       <NavbarComponent />
-      <div className="col-lg-9 col-sm-12 mx-auto mt-5">
-        <h4 className="text-center">{msg}</h4>
-        <form onSubmit={(e) => handleClick(e)}>
-          <Card>
-            <CardTitle>
-              <h2 className="text-center mt-3">{member?.name}</h2>
-              {selfEvaluation && <h3 className="text-center">Autoavaliação</h3>}
-            </CardTitle>
-            <CardBody>
-              {questions.map((question) => (
-                <div className="mb-5">
-                  <h3 className="text-center">{question.question}</h3>
-                  <div className="d-flex justify-content-center">
-                    {question.text ? (
-                      <FormGroup>
+      <Alert className="EvaluationAlert">{msg}</Alert>
+      <form onSubmit={(e) => handleClick(e)} className="EvaluationsBox">
+        {!selfEvaluation && (
+          <h1 className="EvaluationsTitle">{member?.name}</h1>
+        )}
+        {selfEvaluation && <h1 className="EvaluationsTitle">Autoavaliação</h1>}
+        <div className="EvaluationsContent">
+          <CardBody>
+            {questions.map((question) => (
+              <div className="EvaluationQuestionContainer">
+                <h4 className="EvaluationQuestionTitle">{question.question}</h4>
+                {question.text ? (
+                  <FormGroup>
+                    <Input
+                      name={question.idquestion}
+                      type="textarea"
+                      onChange={handleChange}
+                      required
+                      className="EvaluationTextArea"
+                    />
+                  </FormGroup>
+                ) : (
+                  <div className="EvaluationRadioBoxes">
+                    <FormGroup
+                      check
+                      className="form-check-radio form-check-inline"
+                    >
+                      <Label className="form-check-label">
                         <Input
+                          type="radio"
                           name={question.idquestion}
-                          type="textarea"
+                          value="1"
                           onChange={handleChange}
                           required
                         />
-                      </FormGroup>
-                    ) : (
-                      <div>
-                        <FormGroup
-                          check
-                          className="form-check-radio form-check-inline"
-                        >
-                          <Label className="form-check-label">
-                            <Input
-                              type="radio"
-                              name={question.idquestion}
-                              value="1"
-                              onChange={handleChange}
-                              required
-                            />
-                            Nunca<span className="form-check-sign"></span>
-                          </Label>
-                        </FormGroup>
-                        <FormGroup
-                          check
-                          className="form-check-radio form-check-inline"
-                        >
-                          <Label className="form-check-label">
-                            <Input
-                              type="radio"
-                              name={question.idquestion}
-                              value="2"
-                              onChange={handleChange}
-                              required
-                            />
-                            Raramente<span className="form-check-sign"></span>
-                          </Label>
-                        </FormGroup>
-                        <FormGroup
-                          check
-                          className="form-check-radio form-check-inline"
-                        >
-                          <Label className="form-check-label">
-                            <Input
-                              type="radio"
-                              name={question.idquestion}
-                              value="3"
-                              onChange={handleChange}
-                              required
-                            />
-                            Às vezes<span className="form-check-sign"></span>
-                          </Label>
-                        </FormGroup>
-                        <FormGroup
-                          check
-                          className="form-check-radio form-check-inline"
-                        >
-                          <Label className="form-check-label">
-                            <Input
-                              type="radio"
-                              name={question.idquestion}
-                              value="4"
-                              onChange={handleChange}
-                              required
-                            />
-                            Frequentemente
-                            <span className="form-check-sign"></span>
-                          </Label>
-                        </FormGroup>
-                        <FormGroup
-                          check
-                          className="form-check-radio form-check-inline"
-                        >
-                          <Label className="form-check-label">
-                            <Input
-                              type="radio"
-                              name={question.idquestion}
-                              value="5"
-                              onChange={handleChange}
-                              required
-                            />
-                            Sempre<span className="form-check-sign"></span>
-                          </Label>
-                        </FormGroup>
-                      </div>
-                    )}
+                        Nunca<span className="form-check-sign"></span>
+                      </Label>
+                    </FormGroup>
+                    <FormGroup
+                      check
+                      className="form-check-radio form-check-inline"
+                    >
+                      <Label className="form-check-label">
+                        <Input
+                          type="radio"
+                          name={question.idquestion}
+                          value="2"
+                          onChange={handleChange}
+                          required
+                        />
+                        Raramente<span className="form-check-sign"></span>
+                      </Label>
+                    </FormGroup>
+                    <FormGroup
+                      check
+                      className="form-check-radio form-check-inline"
+                    >
+                      <Label className="form-check-label">
+                        <Input
+                          type="radio"
+                          name={question.idquestion}
+                          value="3"
+                          onChange={handleChange}
+                          required
+                        />
+                        Às vezes<span className="form-check-sign"></span>
+                      </Label>
+                    </FormGroup>
+                    <FormGroup
+                      check
+                      className="form-check-radio form-check-inline"
+                    >
+                      <Label className="form-check-label">
+                        <Input
+                          type="radio"
+                          name={question.idquestion}
+                          value="4"
+                          onChange={handleChange}
+                          required
+                        />
+                        Frequentemente
+                        <span className="form-check-sign"></span>
+                      </Label>
+                    </FormGroup>
+                    <FormGroup
+                      check
+                      className="form-check-radio form-check-inline"
+                    >
+                      <Label className="form-check-label">
+                        <Input
+                          type="radio"
+                          name={question.idquestion}
+                          value="5"
+                          onChange={handleChange}
+                          required
+                        />
+                        Sempre<span className="form-check-sign"></span>
+                      </Label>
+                    </FormGroup>
                   </div>
-                </div>
-              ))}
+                )}
+                <hr />
+              </div>
+            ))}
 
-              <FormGroup check>
-                <Label check>
-                  <Input
-                    onChange={handleCheckbox}
-                    name="visible"
-                    type="checkbox"
-                    className="messageCheckbox"
-                  />{" "}
-                  Quer enviar seus textos de maneira não anônima?
-                  <span className="form-check-sign">
-                    <span className="check"></span>
-                  </span>
-                </Label>
-              </FormGroup>
-            </CardBody>
-
-            <Button
-              type="submit"
-              className="col-lg-3 col-sm-12"
-              color="primary"
-            >
-              Avaliar
-            </Button>
-          </Card>
-        </form>
-      </div>
-    </>
+            <FormGroup check className="MessageCheckbox">
+              <Label check>
+                <Input
+                  onChange={handleCheckbox}
+                  name="visible"
+                  type="checkbox"
+                  className="messageCheckbox"
+                />{" "}
+                Quer enviar seus textos de maneira não anônima?
+                <span className="form-check-sign">
+                  <span className="check"></span>
+                </span>
+              </Label>
+            </FormGroup>
+          </CardBody>
+          <button className="SubmitButton EvaluationButton" type="submit">
+            Avaliar
+          </button>
+        </div>
+      </form>
+    </section>
   );
 };
 

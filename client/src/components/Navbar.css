@@ -38,6 +38,6 @@
 .navbar .toggled .navbar-toggler-bar + .navbar-toggler-bar {
   margin-top: 5px;
 }
-.navbar-toggler:focus {
+.navbar-toggler {
   color: transparent !important;
 }

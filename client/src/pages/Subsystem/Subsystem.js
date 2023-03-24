@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import { Card, CardBody, CardText, CardTitle, Col, Row } from "reactstrap";
-import BarChart from "../../components/BarChartSystem";
-import { AuthContext } from "../../context/authContexts";
 import jwtDecode from "jwt-decode";
+import axios from "axios";
+
+import { AuthContext } from "../../context/authContexts";
+import BarChart from "../../components/BarChartSystem";
 import NavbarComponent from "../../components/Navbar";
+import "../../css/styles.css";
+
+import team from "../../assets/team.png";
 
 const Subsystem = () => {
   const { accessToken } = useContext(AuthContext);
@@ -62,28 +65,30 @@ const Subsystem = () => {
   }, [user]);
 
   return (
-    <>
+    <section className="DefaultPage">
       <NavbarComponent />
-      <div className="col-lg-10 col-sm-12 mx-auto mt-5">
-        <Card>
-          <CardBody>
-            <h1>{subsystem?.nameSubsystem}</h1>
-            <h2>
-              <a href={"/sistema/" + subsystem?.idSystem}>
-                {subsystem?.nameSystem}
-              </a>
-            </h2>
-          </CardBody>
-        </Card>
-        <div>
-          <h1 className="text-center">Notas</h1>
-          <Row>
+      <div className="col-lg-10 mx-auto mt-5">
+        <div className="MembersInfoContainer">
+          <div className="MemberInfo1">
+            <img src={team} alt="Logo TESLA - UFMG" className="MembersIMG" />
+            <h2>{subsystem?.nameSubsystem}</h2>
+          </div>
+          <div className="MemberInfo2">
+            <h3 className="MemberInfoSubsystem">
+              Subsistema de {subsystem?.nameSystem}
+            </h3>
+            <a className="MemberInfoLink StyledLink" href="/avaliacoes">
+              Avalie os membros!
+            </a>
+          </div>
+        </div>
+        <div className="GradesBox">
+          <h1 className="GradesTitle">Notas</h1>
+          <div className="GradesContent">
             {grades.map((grade) => (
-              <div className="col-lg-4 col-sm-12">
-                <h2 className="text-center">{grade.criteriaName}</h2>
-                <h3 className="text-center">
-                  Média: {Number(grade.average).toFixed(1)}
-                </h3>
+              <div className="ResultsCard">
+                <p className="ChartTitle">{grade.criteriaName}</p>
+                <p className="ChartText">Média: {grade.average.toFixed(1)}</p>
                 {grade.count && (
                   <BarChart
                     grades={grade.count}
@@ -93,31 +98,26 @@ const Subsystem = () => {
                 )}
               </div>
             ))}
-          </Row>
+          </div>
         </div>
-        <div>
-          <h1 className="text-center">Membros</h1>
-          <Row>
+        <div className="FriendsBox">
+          <h1 className="GradesTitle">Membros</h1>
+          <div className="FriendsContent">
             {members.map((member) => (
-              <Col lg={3}>
-                <a href={"/membro/" + member.userId}>
-                  <Card>
-                    <CardBody>
-                      <CardTitle className="text-center">
-                        {member.name}
-                      </CardTitle>
-                      <CardText className="text-center">
-                        {member.nameRole}
-                      </CardText>
-                    </CardBody>
-                  </Card>
+              <div className="FriendsCard">
+                <a
+                  className="FriendsName StyledLink"
+                  href={"/membro/" + member.userId}
+                >
+                  {member.name}
                 </a>
-              </Col>
+                <p>{member.nameRole}</p>
+              </div>
             ))}
-          </Row>
+          </div>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

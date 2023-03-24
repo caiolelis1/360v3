@@ -4,8 +4,8 @@
 
 /* pages */
 @import url("../pages/auth/AuthPages.css");
-@import url("../pages/Member/MembersPage.css");
 @import url("../pages/Evaluation/EvaluationPages.css");
+@import url("../pages/Member/MembersPage.css");
 
 html,
 body {

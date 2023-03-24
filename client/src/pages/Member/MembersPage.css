@@ -16,6 +16,7 @@
   justify-content: center;
   width: 35%;
   padding-right: 30px;
+  margin: 10px;
 }
 .MemberInfo2 {
   display: flex;
@@ -32,6 +33,7 @@
 }
 .MembersIMG {
   width: 120px;
+  margin-bottom: 10px;
 }
 .GradesBox {
   display: flex;
@@ -45,6 +47,13 @@
   background-color: #dddddd;
   border-radius: 20px;
   filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.25));
+}
+.FeedbackChecker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
 }
 .GradesTitle {
   align-self: flex-end;
@@ -71,7 +80,6 @@
   align-items: center;
   justify-content: center;
   width: 350px;
-  border-bottom: 1px solid gray;
 }
 .ResultsCard {
   margin-bottom: 30px;
@@ -80,6 +88,8 @@
   align-items: center;
   justify-content: center;
   width: 350px;
+
+  border-bottom: 1px solid gray;
 }
 .ChartTitle {
   font-size: 24px;
@@ -161,6 +171,7 @@
   }
 
   .FriendsBox,
+  .FeedbackChecker,
   .GradesBox {
     height: auto;
     width: 350px;
@@ -176,7 +187,7 @@
     width: 310px;
   }
   .ChartTitle {
-    font-size: 20px;
+    font-size: 18px;
     margin-bottom: 8px;
   }
   .ChartText {

@@ -23,6 +23,7 @@ const Member = () => {
   const [grades, setGrades] = useState([]);
   const [colleagues, setColleagues] = useState([]);
   const [ownPage, setOwnPage] = useState(false);
+  const [isFeedback, setIsFeedback] = useState(false);
 
   const fetchMember = () => {
     axios
@@ -103,44 +104,48 @@ const Member = () => {
             )}
           </div>
         </div>
-
         <div className="GradesBox">
           <h1 className="GradesTitle">Notas</h1>
           <div className="GradesContent">
             {grades.map((grade) =>
               grade.text ? (
-                <></>
+                grade.grades && isFeedback === false && setIsFeedback(true)
               ) : (
                 <div className="ResultsCard">
                   <p className="ChartTitle">{grade.criteriaName}</p>
                   <p className="ChartText">Média: {grade.average.toFixed(1)}</p>
-                  <BarChart
-                    grades={grade.grades}
-                    backgroundColor={grade.backgroundColor}
-                    labels={grade.evaluators}
-                  />
+                  {grade.grades && (
+                    <BarChart
+                      grades={grade.grades}
+                      backgroundColor={grade.backgroundColor}
+                      labels={grade.evaluators}
+                    />
+                  )}
                 </div>
               )
             )}
           </div>
-          <h1 className="GradesTitle">Feedbacks</h1>
-          <div className="GradesContent">
-            {grades.map((grade) =>
-              grade.text ? (
-                <div className="ResultsCard">
-                  <p className="ChartTitle">{grade.criteriaName}</p>
-                  <ShowFeedback
-                    texts={grade.grades}
-                    evaluators={grade.evaluators}
-                  />
-                </div>
-              ) : (
-                <></>
-              )
-            )}
-          </div>
+          {isFeedback && (
+            <div className="FeedbackChecker">
+              <h1 className="GradesTitle">Feedbacks</h1>
+              <div className="GradesContent">
+                {grades.map((grade) =>
+                  grade.text ? (
+                    <div className="ResultsCard">
+                      <p className="ChartTitle">{grade.criteriaName}</p>
+                      <ShowFeedback
+                        texts={grade.grades}
+                        evaluators={grade.evaluators}
+                      />
+                    </div>
+                  ) : (
+                    <></>
+                  )
+                )}
+              </div>
+            </div>
+          )}
         </div>
-
         <div className="FriendsBox">
           <h1 className="GradesTitle">Colegas</h1>
           <div className="FriendsContent">

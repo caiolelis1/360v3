@@ -3,9 +3,9 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
-import "../../../css/styles.css";
-import logo from "../../../assets/logo.svg";
 import { AuthContext } from "../../../context/authContexts";
+import logo from "../../../assets/logo.svg";
+import "../../../css/styles.css";
 
 const Login = () => {
   const { login } = useContext(AuthContext);

@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { Button, Card, CardBody, Col, Row } from "reactstrap";
-import { AuthContext } from "../../../context/authContexts";
+import { Card, CardBody } from "reactstrap";
 import jwtDecode from "jwt-decode";
+import axios from "axios";
+
+import { AuthContext } from "../../../context/authContexts";
 import NavbarComponent from "../../../components/Navbar";
+import "../../../css/styles.css";
 
 const Evaluations = () => {
   const { accessToken } = useContext(AuthContext);

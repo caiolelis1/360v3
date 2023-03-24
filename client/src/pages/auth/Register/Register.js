@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import axios from "axios";
 
-import "../../../css/styles.css";
 import logo from "../../../assets/logo.svg";
+import "../../../css/styles.css";
 
 const initialValues = { system: "1", subsystem: "1" };
 

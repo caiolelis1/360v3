@@ -1,4 +1,3 @@
-import { Card, CardBody, CardTitle, CardText, Row, Col } from "reactstrap";
 import React, { useContext, useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
@@ -8,6 +7,7 @@ import { AuthContext } from "../../context/authContexts";
 import NavbarComponent from "../../components/Navbar";
 import BarChart from "../../components/BarChart";
 import profile from "../../assets/user.png";
+import "../../css/styles.css";
 
 const Profile = () => {
   const { accessToken } = useContext(AuthContext);

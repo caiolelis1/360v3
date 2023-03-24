@@ -1,10 +1,12 @@
+import { FormGroup, Label, Input, CardBody, Alert } from "reactstrap";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import { FormGroup, Label, Input, CardBody, Button, Alert } from "reactstrap";
-import { AuthContext } from "../../../context/authContexts";
 import jwtDecode from "jwt-decode";
+import axios from "axios";
+
+import { AuthContext } from "../../../context/authContexts";
 import NavbarComponent from "../../../components/Navbar";
+import "../../../css/styles.css";
 
 const Evaluation = () => {
   const { accessToken } = useContext(AuthContext);

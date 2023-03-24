@@ -1,4 +1,3 @@
-import { Card, CardBody, Row, CardTitle, CardText, Col } from "reactstrap";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
@@ -9,6 +8,7 @@ import ShowFeedback from "../../components/ShowFeedback";
 import NavbarComponent from "../../components/Navbar";
 import BarChart from "../../components/BarChart";
 import profile from "../../assets/user.png";
+import "../../css/styles.css";
 
 const Member = () => {
   const params = useParams();

@@ -1,12 +1,14 @@
+import { Card, CardBody, Row, CardTitle, CardText, Col } from "reactstrap";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import jwt_decode from "jwt-decode";
-import { Card, CardBody, Row, CardTitle, CardText, Col } from "reactstrap";
-import BarChart from "../../components/BarChart";
-import ShowFeedback from "../../components/ShowFeedback";
+import axios from "axios";
+
 import { AuthContext } from "../../context/authContexts";
+import ShowFeedback from "../../components/ShowFeedback";
 import NavbarComponent from "../../components/Navbar";
+import BarChart from "../../components/BarChart";
+import profile from "../../assets/user.png";
 
 const Member = () => {
   const params = useParams();
@@ -75,74 +77,88 @@ const Member = () => {
   }, [member]);
 
   return (
-    <>
+    <section className="DefaultPage">
       <NavbarComponent />
       <div className="col-10 mx-auto mt-5">
-        <Card>
-          <CardBody>
-            <h1>{member?.name}</h1>
-            <h2>
-              {member?.nameRole} de{" "}
-              <a href={"/subsistema/" + member?.idSubsystem}>
+        <div className="MembersInfoContainer">
+          <div className="MemberInfo1">
+            <img src={profile} alt="Logo TESLA - UFMG" className="MembersIMG" />
+            <h2>{member?.name}</h2>
+            <p>{member?.nameSystem}</p>
+          </div>
+          <div className="MemberInfo2">
+            <h3 className="MemberInfoSubsystem">
+              {member?.nameRole} de <br />
+              <a
+                className="StyledLink"
+                href={"/subsistema/" + member?.idSubsystem}
+              >
                 {member?.nameSubsystem}
               </a>
-            </h2>
-            <h2>
-              <a href={"/sistema/" + member?.idSystem}>{member?.nameSystem}</a>
-            </h2>
-            {ownPage && <a href="/avaliacoes">Avalie os membros!</a>}
-          </CardBody>
-        </Card>
-        <div>
-          <h1 className="text-center">Notas</h1>
-          <Row>
-            {grades.map((grade) => (
-              <div className="col-lg-4 col-sm-12">
-                <h2>{grade.criteriaName}</h2>
-                {grade.text === "1" ? (
+            </h3>
+            {ownPage && (
+              <a className="MemberInfoLink StyledLink" href="/avaliacoes">
+                Avalie os membros!
+              </a>
+            )}
+          </div>
+        </div>
+
+        <div className="GradesBox">
+          <h1 className="GradesTitle">Notas</h1>
+          <div className="GradesContent">
+            {grades.map((grade) =>
+              grade.text ? (
+                <></>
+              ) : (
+                <div className="ResultsCard">
+                  <p className="ChartTitle">{grade.criteriaName}</p>
+                  <p className="ChartText">Média: {grade.average.toFixed(1)}</p>
+                  <BarChart
+                    grades={grade.grades}
+                    backgroundColor={grade.backgroundColor}
+                    labels={grade.evaluators}
+                  />
+                </div>
+              )
+            )}
+          </div>
+          <h1 className="GradesTitle">Feedbacks</h1>
+          <div className="GradesContent">
+            {grades.map((grade) =>
+              grade.text ? (
+                <div className="ResultsCard">
+                  <p className="ChartTitle">{grade.criteriaName}</p>
                   <ShowFeedback
                     texts={grade.grades}
                     evaluators={grade.evaluators}
                   />
-                ) : (
-                  <div>
-                    <h3>Média: {grade.average.toFixed(1)}</h3>
-                    {grade.grades && (
-                      <BarChart
-                        grades={grade.grades}
-                        backgroundColor={grade.backgroundColor}
-                        labels={grade.evaluators}
-                      />
-                    )}
-                  </div>
-                )}
+                </div>
+              ) : (
+                <></>
+              )
+            )}
+          </div>
+        </div>
+
+        <div className="FriendsBox">
+          <h1 className="GradesTitle">Colegas</h1>
+          <div className="FriendsContent">
+            {colleagues.map((colleague) => (
+              <div className="FriendsCard">
+                <a
+                  className="FriendsName StyledLink"
+                  href={"/membro/" + colleague.userId}
+                >
+                  {colleague.name}
+                </a>
+                <p>{colleague.nameRole}</p>
               </div>
             ))}
-          </Row>
-        </div>
-        <div>
-          <h1 className="text-center">Colegas</h1>
-          <Row>
-            {colleagues.map((colleague) => (
-              <Col lg={3}>
-                <a href={"/membro/" + colleague.userId}>
-                  <Card>
-                    <CardBody>
-                      <CardTitle className="text-center">
-                        {colleague.name}
-                      </CardTitle>
-                      <CardText className="text-center">
-                        {colleague.nameRole}
-                      </CardText>
-                    </CardBody>
-                  </Card>
-                </a>
-              </Col>
-            ))}
-          </Row>
+          </div>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

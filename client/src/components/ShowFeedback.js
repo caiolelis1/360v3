@@ -5,11 +5,11 @@ const ShowFeedback = ({ texts, evaluators }) => {
     console.log(texts);
   }, []);
   return (
-    <div>
+    <div className="FeedbackText">
       {texts &&
         texts.map((text, i) => (
           <p>
-            {text} - {evaluators[i]}
+            {evaluators[i]}: {text}
           </p>
         ))}
     </div>

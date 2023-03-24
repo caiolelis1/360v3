@@ -44,7 +44,7 @@ const BarChart = ({ grades, backgroundColor, labels }) => {
     ],
   };
   return (
-    <div>
+    <div className="ChartCard">
       <Bar options={options} data={data} />
     </div>
   );

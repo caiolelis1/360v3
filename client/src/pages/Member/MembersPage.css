@@ -1,0 +1,193 @@
+.MembersInfoContainer {
+  display: flex;
+  justify-content: space-between;
+  height: auto;
+  width: 900px;
+  margin: 70px auto;
+  padding: 25px 30px;
+  background-color: #dddddd;
+  border-radius: 20px;
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.25));
+}
+.MemberInfo1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 35%;
+  padding-right: 30px;
+}
+.MemberInfo2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 65%;
+  padding-left: 30px;
+  border-left: 1px solid gray;
+}
+.MemberInfoLink {
+  margin-top: 20px;
+  font-size: 22px;
+}
+.MembersIMG {
+  width: 120px;
+}
+.GradesBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  width: 900px;
+  margin: 70px auto;
+  padding-bottom: 25px;
+  background-color: #dddddd;
+  border-radius: 20px;
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.25));
+}
+.GradesTitle {
+  align-self: flex-end;
+  justify-self: flex-end;
+  width: 860px;
+  font-size: 28px;
+  font-weight: 400;
+  margin: 20px 0 40px 0;
+  font-family: "Montserrat", sans-serif;
+  border-bottom: 1px solid black;
+}
+.GradesContent {
+  display: flex !important;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 0 40px;
+  padding-bottom: 40px;
+}
+.ChartCard {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 350px;
+  border-bottom: 1px solid gray;
+}
+.ResultsCard {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 350px;
+}
+.ChartTitle {
+  font-size: 24px;
+}
+.ChartText {
+  font-size: 18px;
+  text-align: center;
+}
+.FeedbackText {
+  width: 100%;
+  align-self: flex-start;
+  text-align: start;
+  border-bottom: 1px solid gray;
+}
+.FriendsBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  width: 900px;
+  margin: 0 auto;
+  padding-bottom: 10px;
+  background-color: #dddddd;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.25));
+}
+.FriendsContent {
+  display: flex !important;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 0 40px;
+  padding-bottom: 40px;
+}
+.FriendsCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  margin: 0 15px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 10px;
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.25));
+}
+.FriendsName {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+@media screen and (max-width: 900px) {
+  .MembersInfoContainer {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: auto;
+    width: 350px;
+  }
+  .MemberInfo1 {
+    width: 300px;
+    border-bottom: 1px solid gray;
+    padding-right: 0;
+  }
+  .MemberInfo2 {
+    border: none;
+    width: 300px;
+    padding-left: 0;
+    text-align: center;
+  }
+  .MemberInfoSubsystem {
+    margin-top: 20px;
+    font-size: 22px;
+  }
+  .MemberInfoLink {
+    font-size: 20px;
+  }
+
+  .FriendsBox,
+  .GradesBox {
+    height: auto;
+    width: 350px;
+    align-items: center;
+    justify-content: center;
+  }
+  .GradesTitle {
+    width: 310px;
+    font-size: 22px;
+  }
+  .ChartCard,
+  .ResultsCard {
+    width: 310px;
+  }
+  .ChartTitle {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  .ChartText {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+  .FriendsContent {
+    align-items: center;
+    justify-content: center;
+  }
+  .FriendsCard {
+    margin: 15px 0;
+  }
+}

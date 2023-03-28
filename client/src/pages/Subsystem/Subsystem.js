@@ -105,10 +105,7 @@ const Subsystem = () => {
           <div className="FriendsContent">
             {members.map((member) => (
               <div className="FriendsCard">
-                <a
-                  className="FriendsName StyledLink"
-                  href={"/membro/" + member.userId}
-                >
+                <a className="FriendsName" href={"/membro/" + member.userId}>
                   {member.name}
                 </a>
                 <p>{member.nameRole}</p>

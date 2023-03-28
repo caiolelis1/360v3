@@ -138,37 +138,17 @@ a {
   text-decoration: none;
   position: relative;
 }
-a::before {
-  content: "";
-  background-color: #43f340;
-  position: absolute;
-  left: 0;
-  bottom: 3px;
-  width: 100%;
-  height: 8px;
-  z-index: -1;
-}
-a:hover::before {
-  bottom: 0;
-  height: 100%;
-}
-a::before {
-  content: "";
-  background-color: #43f340;
-  position: absolute;
-  left: 0;
-  bottom: 3px;
-  width: 100%;
-  height: 8px;
-  z-index: -1;
-  transition: all 0.3s ease-in-out;
+a:link,
+a:hover,
+a:active {
+  color: #35be32;
 }
 
 br {
   display: none;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1024px) {
   br {
     display: inline;
   }

@@ -68,6 +68,7 @@
 .GradesContent {
   display: flex !important;
   justify-content: space-around;
+  align-items: flex-start;
   flex-wrap: wrap;
   width: 100%;
   padding: 0 40px;
@@ -88,8 +89,6 @@
   align-items: center;
   justify-content: center;
   width: 350px;
-
-  border-bottom: 1px solid gray;
 }
 .ChartTitle {
   font-size: 24px;
@@ -102,7 +101,6 @@
   width: 100%;
   align-self: flex-start;
   text-align: start;
-  border-bottom: 1px solid gray;
 }
 .FriendsBox {
   display: flex;
@@ -143,15 +141,16 @@
 .FriendsName {
   font-size: 22px;
   margin-bottom: 15px;
+  text-decoration: none;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1024px) {
   .MembersInfoContainer {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     height: auto;
-    width: 350px;
+    width: 300px;
   }
   .MemberInfo1 {
     width: 300px;
@@ -176,17 +175,20 @@
   .FeedbackChecker,
   .GradesBox {
     height: auto;
-    width: 350px;
+    width: 300px;
     align-items: center;
     justify-content: center;
   }
+  .FeedbackText {
+    border-bottom: 1px solid gray;
+  }
   .GradesTitle {
-    width: 310px;
+    width: 260px;
     font-size: 22px;
   }
   .ChartCard,
   .ResultsCard {
-    width: 310px;
+    width: 280px;
   }
   .ChartTitle {
     font-size: 18px;
@@ -202,5 +204,8 @@
   }
   .FriendsCard {
     margin: 15px 0;
+  }
+  .FriendsName {
+    color: #35be32;
   }
 }

@@ -123,10 +123,7 @@ const Member = () => {
           <div className="FriendsContent">
             {colleagues.map((colleague) => (
               <div className="FriendsCard">
-                <a
-                  className="FriendsName StyledLink"
-                  href={"/membro/" + colleague.userId}
-                >
+                <a className="FriendsName" href={"/membro/" + colleague.userId}>
                   {colleague.name}
                 </a>
                 <p>{colleague.nameRole}</p>

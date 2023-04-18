@@ -4,7 +4,7 @@ export const getSystems = (req, res) => {
   const q = "SELECT * FROM systems";
 
   db.query(q, [], (err, data) => {
-    if (err) return res.status(500).json(err);
+    if (err) return res.send(err);
     res.send(data);
   });
 };

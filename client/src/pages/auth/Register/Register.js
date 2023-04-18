@@ -6,6 +6,7 @@ import axios from "axios";
 
 import logo from "../../../assets/logo.svg";
 import "../../../css/styles.css";
+import { AuthService } from "../../../services/Auth";
 
 const initialValues = { system: "1", subsystem: "1" };
 
@@ -36,7 +37,10 @@ const Register = () => {
 
   const handleClick = async (values) => {
     try {
-      await axios.post("http://localhost:8800/api/auth/register", values);
+      await axios.post(
+        "https://360backend2023.vercel.app/api/auth/register",
+        values
+      );
     } catch (err) {
       setErr(err.response.data);
     }
@@ -48,30 +52,16 @@ const Register = () => {
     setSystem(values.system);
   };
 
-  const fetchSystems = () => {
-    axios
-      .post("http://localhost:8800/api/system/getSystems", {})
-      .then((res) => {
-        setSystems(res.data);
-      });
-  };
-
-  const fetchSubsystems = (id) => {
-    axios
-      .post("http://localhost:8800/api/subsystem/getSubsystemBySystem", {
-        id: id,
-      })
-      .then((res) => {
-        setSubsystems(res.data);
-      });
-  };
-
   useEffect(() => {
-    fetchSystems();
+    AuthService.fetchSystems().then((res) => {
+      setSystems(res.data);
+    });
   }, []);
 
   useEffect(() => {
-    fetchSubsystems(system);
+    AuthService.fetchSubsystems(system).then((res) => {
+      setSubsystems(res.data);
+    });
   }, [system]);
 
   return (

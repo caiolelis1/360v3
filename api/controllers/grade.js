@@ -1,5 +1,14 @@
 import { db } from "../connect.js";
 
+const Roles = {
+  Capitao: 1,
+  DiretorGeral: 2,
+  Diretor: 3,
+  Projetista: 4,
+};
+
+const GP = 4;
+
 export const getQuestions = (req, res) => {
   const { id, user, role } = req.body;
 
@@ -19,7 +28,7 @@ export const getQuestions = (req, res) => {
     q += " ORDER BY text, type;";
   }
 
-  if (role === 4) {
+  if (role === Roles.Projetista) {
     typeCriteria = 2;
   } else {
     typeCriteria = 3;
@@ -34,26 +43,26 @@ export const getQuestions = (req, res) => {
 export const getMsg = (req, res) => {
   const { id, role, user } = req.body;
   let msg = "";
-  if (user.role == 1) {
+  if (user.role == Roles.Capitao) {
     msg =
       "Observação: suas respostas serão vistas pela Gestão de Pessoas e pelo avaliado.";
-  } else if (user.role == 2) {
-    if (role == 4 || role == 1) {
+  } else if (user.role == Roles.DiretorGeral) {
+    if (role == Roles.Projetista || role == Roles.Capitao) {
       msg = "Observação: esta avaliação será vista pela Gestão de Pessoas.";
     } else {
       msg =
         "Observação: esta avaliação será vista pela Gestão de Pessoas e pelo avaliado.";
     }
-  } else if (user.role == 3) {
-    if (role == 4) {
+  } else if (user.role == Roles.Diretor) {
+    if (role == Roles.Projetista) {
       msg =
         "Observação: esta avaliação será vista pela Gestão de Pessoas e pelo(a) avaliado(a).";
     } else {
       msg = "Observação: esta avaliação será vista pela Gestão de Pessoas.";
     }
   } else {
-    if (role == 4) {
-      if (user.subsystem == 4) {
+    if (role == Roles.Projetista) {
+      if (user.subsystem == GP) {
         msg =
           "Observação: esta avaliação será vista pelo diretor do subsistema.";
       } else {
@@ -72,7 +81,7 @@ export const getCriteria = (req, res) => {
 
   let typeCriteria;
 
-  if (req.body.role === 4) {
+  if (req.body.role === Roles.Projetista) {
     typeCriteria = 2;
   } else {
     typeCriteria = 3;
@@ -92,22 +101,22 @@ export const getEvaluated = (req, res) => {
     user +
     " AND evaluatedId=users.idUser) > 0 THEN 1 ELSE 0 END AS evaluated FROM duties INNER JOIN users ON duties.userId=users.idUser INNER JOIN roles ON duties.roleId=roles.idRole INNER JOIN systems ON duties.systemId=systems.idSystem INNER JOIN subsystems ON duties.subsystemId=subsystems.idSubsystem ";
 
-  if (role === 1) {
+  if (role === Roles.Capitao) {
     //capitao
     q += "WHERE (NOT roleId=4) OR (subsystemId=4) ORDER BY roleId, name;";
-  } else if (role === 2 && system === 1) {
+  } else if (role === Roles.DiretorGeral && system === 1) {
     //diretor geral de administração
     q +=
       "WHERE (roleId=1) OR (roleId=2) OR (roleId=3 AND duties.systemId=" +
       system +
       ") OR (roleId=4 AND (idSubsystem=1 OR idSubsystem=5 OR idSubsystem=6)) ORDER BY roleId, name;";
-  } else if (role === 2) {
+  } else if (role === Roles.DiretorGeral) {
     //outros diretores gerais
     q +=
       "WHERE (roleId=1) OR (roleId=2) OR (roleId=3 AND duties.systemId=" +
       system +
       ") ORDER BY roleId, name;";
-  } else if (role === 3) {
+  } else if (role === Roles.Diretor) {
     //diretores
     q +=
       "WHERE (duties.subsystemId=" +
@@ -115,7 +124,7 @@ export const getEvaluated = (req, res) => {
       ") OR (roleId=2 AND duties.systemId=" +
       system +
       ") OR (roleId=1) ORDER BY roleId, name;";
-  } else if (role === 4 && subsystem === 4) {
+  } else if (role === Roles.Projetista && subsystem === GP) {
     //membros da GP
     q +=
       "WHERE duties.subsystemId=" +
@@ -186,11 +195,21 @@ function toFindDuplicates(arr) {
 export const getMemberGrades = (req, res) => {
   let authorized = false;
   const { id, user } = req.body;
-  if (id == user.id || user.subsystem === 4) authorized = true;
+
+  if (user.subsystem != GP)
+    return res
+      .status(403)
+      .json(
+        "A Gestão de Pessoas está filtrando as avaliações. Em breve você terá acesso aos resultados."
+      );
+
+  if (id == user.id || user.subsystem === GP) authorized = true;
 
   const red = "rgba(255, 0, 0, 1)";
   const yellow = "rgba(255, 255, 0, 1)";
   const green = "rgba(0, 255, 0, 1)";
+  let feedback1 = [],
+    feedback2 = [];
   let sum;
   const q =
     "SELECT criterias.name AS criteriaName, GROUP_CONCAT(grade) AS grades, GROUP_CONCAT(DISTINCT text) AS text, GROUP_CONCAT(users.name) AS evaluators, GROUP_CONCAT(visible) AS visible , GROUP_CONCAT(DISTINCT evaluated.roleId) AS roleEvaluated, GROUP_CONCAT(evaluator.roleId) AS roleEvaluator, GROUP_CONCAT(DISTINCT evaluated.subsystemId) AS subsystem, GROUP_CONCAT(DISTINCT evaluated.systemId) AS systemId, GROUP_CONCAT(evaluator.userId) AS idEvaluator " +
@@ -200,19 +219,50 @@ export const getMemberGrades = (req, res) => {
     "INNER JOIN duties evaluated ON evaluatedId=evaluated.userId " +
     "INNER JOIN duties evaluator ON evaluatorId=evaluator.userId " +
     "INNER JOIN users ON evaluatorId=users.idUser " +
-    "WHERE evaluatedId=? " +
+    "WHERE evaluatedId=? AND text IS NULL " +
     "GROUP BY criteriaId;";
+  const q2 =
+    "SELECT questionId, grade, visible, name, evaluated.roleId AS evaluatedRole, evaluator.roleId as evaluatorRole, evaluator.subsystemId as evaluatorSubsystem, evaluated.subsystemId as evaluatedSubsystem " +
+    "FROM 360v3.grades " +
+    "INNER JOIN questions on questionId=idquestion " +
+    "INNER JOIN duties evaluated ON evaluatedId=evaluated.userId " +
+    "INNER JOIN duties evaluator ON evaluatorId=evaluator.userId " +
+    "INNER JOIN users on evaluatorId=idUser " +
+    "WHERE evaluatedId=? AND text=1";
+
+  db.query(q2, id, (err, data) => {
+    if (err) return red.status(500).json(err);
+
+    for (let i = 0; i < data.length; i++) {
+      if (user.id != 119)
+        if (
+          (!(data[i].evaluatedRole > data[i].evaluatorRole) && !authorized) ||
+          data[i].evaluatedSubsystem == GP ||
+          data[i].evaluatorSubsystem == GP
+        )
+          data[i].name = "Anônimo";
+      delete data[i].evaluatedRole;
+      delete data[i].evaluatorRole;
+      if (data[i].questionId == 24) {
+        feedback1.push(data[i]);
+      } else {
+        feedback2.push(data[i]);
+      }
+    }
+  });
+
   db.query(q, id, (err, data) => {
     if (err) return res.status(500).json(err);
     if (data.length === 0)
       return res.status(404).json("Nenhuma avaliação encontrada!");
     if (
-      (user.role === 3 && user.subsystem == data[0].subsystem) ||
-      (user.role === 2 &&
-        ((user.systemId == data[0].systemId && data[0].role == 3) ||
-          data[0].subsystem == 4)) ||
-      (user.role === 1 &&
-        (data[0].roleEvaluated == 2 || data[0].subsystem == 4))
+      (user.role === Roles.Diretor && user.subsystem == data[0].subsystem) ||
+      (user.role === Roles.DiretorGeral &&
+        ((user.systemId == data[0].systemId && data[0].role == Roles.Diretor) ||
+          data[0].subsystem == GP)) ||
+      (user.role === Roles.Capitao &&
+        (data[0].roleEvaluated == Roles.DiretorGeral ||
+          data[0].subsystem == GP))
     ) {
       authorized = true;
     }
@@ -251,19 +301,18 @@ export const getMemberGrades = (req, res) => {
 
       for (let j = 0; j < data[i].grades.length; j++) {
         sum += data[i].grades[j];
-
-        if (user.subsystem != 4)
+        if (user.id != 119)
           if (
-            ((parseInt(data[0].roleEvaluated) <= data[i].roleEvaluator[j] &&
-              id == user.id) ||
-              (parseInt(data[0].roleEvaluated) === 4 &&
-                data[i].roleEvaluator[j] === 2)) &&
-            authorized &&
-            data[i].evaluators[j] &&
-            data[i].visible[j] != 1 &&
-            !(id == user.id && user.id == data[i].idEvaluator[j])
+            user.subsystem != GP ||
+            (user.subsystem === GP && data[0].subsystem == GP)
           )
-            data[i].evaluators[j] = "Anônimo";
+            if (
+              authorized &&
+              data[i].evaluators[j] &&
+              data[i].visible[j] != 1 &&
+              !(id == user.id && user.id == data[i].idEvaluator[j])
+            )
+              data[i].evaluators[j] = "Anônimo";
 
         if (data[i].grades[j] < 3 && authorized) {
           data[i].backgroundColor.push(red);
@@ -274,11 +323,14 @@ export const getMemberGrades = (req, res) => {
         }
       }
       data[i].average = sum / data[i].grades.length;
+
       if (!authorized) {
         delete data[i].grades;
         delete data[i].evaluators;
       }
     }
+    data.push({ text: 1, grades: feedback1 });
+    data.push({ text: 1, grades: feedback2 });
     res.send(data);
   });
 };
@@ -288,7 +340,14 @@ export const getSubsystemGrades = (req, res) => {
   let gp = false;
   const { subsystem, user } = req.body;
 
-  if (subsystem == user.subsystem) authorized = true;
+  if (user.subsystem != GP)
+    return res
+      .status(403)
+      .json(
+        "A Gestão de Pessoas está filtrando as avaliações. Em breve você terá acesso aos resultados."
+      );
+
+  if (subsystem == user.subsystem || user.subsystem === GP) authorized = true;
 
   const red = "rgba(255, 0, 0, 1)";
   const yellow = "rgba(255, 255, 0, 1)";
@@ -308,7 +367,8 @@ export const getSubsystemGrades = (req, res) => {
     if (err) return res.status(500).json(err);
     if (data.length === 0)
       return res.status(404).json("Nenhuma avaliação encontrada!");
-    if (user.role === 2 && user.system == data[0].systemId) authorized = true;
+    if (user.role === Roles.DiretorGeral && user.system == data[0].systemId)
+      authorized = true;
     if (!authorized) return res.status(403).json("Você não tem acesso!");
     for (let i = 0; i < data.length; i++) {
       sum = 0;

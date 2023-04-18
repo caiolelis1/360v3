@@ -1,32 +1,22 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Card, CardBody } from "reactstrap";
 import jwtDecode from "jwt-decode";
-import axios from "axios";
 
 import { AuthContext } from "../../../context/authContexts";
 import NavbarComponent from "../../../components/Navbar";
 import "../../../css/styles.css";
+import { EvaluationService } from "../../../services/Evaluation";
 
 const Evaluations = () => {
   const { accessToken } = useContext(AuthContext);
   const [user] = useState(jwtDecode(accessToken));
   const [evaluatees, setEvaluatees] = useState([]);
 
-  const fetchEvaluatees = () => {
-    axios
-      .post("http://localhost:8800/api/grade/getEvaluated", {
-        user: user.id,
-        role: user.role,
-        subsystem: user.subsystem,
-        system: user.system,
-      })
-      .then((res) => {
+  useEffect(() => {
+    if (user.id)
+      EvaluationService.fetchEvaluatees(user).then((res) => {
         setEvaluatees(res.data);
       });
-  };
-
-  useEffect(() => {
-    if (user.id) fetchEvaluatees(user);
   }, [user]);
 
   return (

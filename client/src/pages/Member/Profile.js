@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
-import axios from "axios";
 
 import ShowFeedback from "../../components/ShowFeedback";
 import { AuthContext } from "../../context/authContexts";
@@ -8,6 +7,7 @@ import NavbarComponent from "../../components/Navbar";
 import BarChart from "../../components/BarChart";
 import profile from "../../assets/user.png";
 import "../../css/styles.css";
+import { MemberService } from "../../services/Member";
 
 const Profile = () => {
   const { accessToken } = useContext(AuthContext);
@@ -16,46 +16,20 @@ const Profile = () => {
   const [colleagues, setColleagues] = useState([]);
   const [grades, setGrades] = useState([]);
 
-  const fetchMember = (id) => {
-    axios
-      .post("http://localhost:8800/api/member/getMemberPage", {
-        id: id,
-        user: user,
-      })
-      .then((res) => {
-        setMember(res.data[0]);
-      });
-  };
-
-  const fetchColleagues = (id, subsystem) => {
-    axios
-      .post("http://localhost:8800/api/member/getColleagues", {
-        id: id,
-        subsystem: subsystem,
-      })
-      .then((res) => {
-        setColleagues(res.data);
-      });
-  };
-
-  const fetchGrades = (id, user) => {
-    axios
-      .post("http://localhost:8800/api/grade/getMemberGrades", {
-        id: id,
-        user: user,
-      })
-      .then((res) => {
-        setGrades(res.data);
-      });
-  };
-
   useEffect(() => {
-    fetchMember(user.id);
-    fetchGrades(user.id, user);
+    MemberService.fetchMember(user.id, user).then((res) => {
+      setMember(res.data[0]);
+    });
+    MemberService.fetchGrades(user.id, user).then((res) => {
+      setGrades(res.data);
+    });
   }, [user]);
 
   useEffect(() => {
-    if (member.idSubsystem) fetchColleagues(user.id, member.idSubsystem);
+    if (member.idSubsystem)
+      MemberService.fetchColleagues(user.id, member.idSubsystem).then((res) => {
+        setColleagues(res.data);
+      });
   }, [member]);
 
   return (
@@ -108,10 +82,7 @@ const Profile = () => {
               grade.text ? (
                 <div className="ResultsCard">
                   <p className="ChartTitle">{grade.criteriaName}</p>
-                  <ShowFeedback
-                    texts={grade.grades}
-                    evaluators={grade.evaluators}
-                  />
+                  <ShowFeedback grades={grade.grades} />
                 </div>
               ) : (
                 <></>

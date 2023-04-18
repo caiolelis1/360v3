@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import axios from "axios";
 
 import { AuthContext } from "../../context/authContexts";
 import ShowFeedback from "../../components/ShowFeedback";
@@ -9,6 +8,7 @@ import NavbarComponent from "../../components/Navbar";
 import BarChart from "../../components/BarChart";
 import profile from "../../assets/user.png";
 import "../../css/styles.css";
+import { MemberService } from "../../services/Member";
 
 const Member = () => {
   const params = useParams();
@@ -25,55 +25,30 @@ const Member = () => {
   const [ownPage, setOwnPage] = useState(false);
   const [isFeedback, setIsFeedback] = useState(false);
 
-  const fetchMember = () => {
-    axios
-      .post("http://localhost:8800/api/member/getMemberPage", {
-        id: id,
-        user: user,
-      })
-      .then((res) => {
-        if (res.data[0].idUser === user.id) setOwnPage(true);
-        setMember(res.data[0]);
-      })
-      .catch((error) => {
-        navigate("/perfil");
-      });
-  };
-
-  const fetchColleagues = (id, subsystem) => {
-    axios
-      .post("http://localhost:8800/api/member/getColleagues", {
-        id: id,
-        subsystem: subsystem,
-      })
-      .then((res) => {
-        setColleagues(res.data);
-      });
-  };
-
-  const fetchGrades = (id, user) => {
-    axios
-      .post("http://localhost:8800/api/grade/getMemberGrades", {
-        id: id,
-        user: user,
-      })
-      .then((res) => {
-        setGrades(res.data);
-      });
-  };
-
   useEffect(() => {
     setUser(jwt_decode(accessToken));
   }, []);
 
   useEffect(() => {
-    if (user.id) fetchMember();
+    if (user.id)
+      MemberService.fetchMember(id, user)
+        .then((res) => {
+          if (res.data[0].idUser === user.id) setOwnPage(true);
+          setMember(res.data[0]);
+        })
+        .catch(() => {
+          navigate("/perfil");
+        });
   }, [user]);
 
   useEffect(() => {
     if (member.idSubsystem) {
-      fetchColleagues(id, member.idSubsystem);
-      fetchGrades(id, user);
+      MemberService.fetchColleagues(id, member.idSubsystem).then((res) => {
+        setColleagues(res.data);
+      });
+      MemberService.fetchGrades(id, user).then((res) => {
+        setGrades(res.data);
+      });
     }
   }, [member]);
 
@@ -133,10 +108,7 @@ const Member = () => {
                   grade.text ? (
                     <div className="ResultsCard">
                       <p className="ChartTitle">{grade.criteriaName}</p>
-                      <ShowFeedback
-                        texts={grade.grades}
-                        evaluators={grade.evaluators}
-                      />
+                      <ShowFeedback grades={grade.grades} />
                     </div>
                   ) : (
                     <></>

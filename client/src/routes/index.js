@@ -44,6 +44,7 @@ const RouterApp = () => {
               path="/avaliacao/:id"
               element={<Private Item={Evaluation} />}
             />
+            <Route path="*" element={<Private Item={Profile} />} />
           </Routes>
         </Fragment>
       </Router>

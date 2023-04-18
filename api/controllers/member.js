@@ -1,5 +1,16 @@
 import { db } from "../connect.js";
 
+const Roles = {
+  Capitao: 1,
+  DiretorGeral: 2,
+  Diretor: 3,
+  Projetista: 4,
+};
+
+const GP = 4;
+
+const contaAdmin = 119;
+
 export const getMemberPage = (req, res) => {
   const { user, id } = req.body;
 
@@ -19,32 +30,42 @@ export const getMemberPage = (req, res) => {
     if (err) return res.status(500).json(err);
     if (data.length === 0)
       return res.status(404).json("Nenhum membro encontrado.");
-    if (user.id == id) return res.send(data); //se vc é vc pode ver sua pagina
-    if (user.subsystem === 4 && data[0].idSubsystem != 4)
+    if (user.id == id || user.id == contaAdmin) return res.send(data); //se vc é vc pode ver sua pagina
+    if (user.subsystem === GP && data[0].idSubsystem != GP)
       //se vc é do gp pode ver tudo menos gp
       return res.send(data);
     if (
-      user.role === 4 &&
+      user.role === Roles.Projetista &&
       user.id != data[0].idUser &&
-      !(data[0].idRole === 3 && user.subsystem === data[0].idSubsystem) &&
-      !(data[0].idRole === 1)
+      !(
+        data[0].idRole === Roles.Diretor &&
+        user.subsystem === data[0].idSubsystem
+      ) &&
+      !(data[0].idRole === Roles.Capitao)
     )
       return res.status(403).json("Você não tem acesso a esta página!");
     if (
-      user.role === 3 &&
+      user.role === Roles.Diretor &&
       user.subsystem != data[0].idSubsystem &&
-      !(data[0].idRole === 2 && user.system === data[0].idSystem) &&
-      !(data[0].idRole === 1)
+      !(
+        data[0].idRole === Roles.DiretorGeral &&
+        user.system === data[0].idSystem
+      ) &&
+      !(data[0].idRole === Roles.Capitao)
     )
       return res.status(403).json("Você não tem acesso a esta página!");
     if (
-      user.role === 2 &&
-      !(data[0].idRole === 3 && user.system === data[0].idSystem) &&
-      !(data[0].idRole === 1) &&
-      !(data[0].idRole === 4 && data[0].idSubsystem === 4)
+      user.role === Roles.DiretorGeral &&
+      !(data[0].idRole === Roles.Diretor && user.system === data[0].idSystem) &&
+      !(data[0].idRole === Roles.Capitao) &&
+      !(data[0].idRole === Roles.Projetista && data[0].idSubsystem === GP)
     )
       return res.status(403).json("Você não tem acesso a esta página!");
-    if (user.role === 1 && data[0].idRole === 4 && data[0].idSubsystem != 4)
+    if (
+      user.role === Roles.Capitao &&
+      data[0].idRole === Roles.Projetista &&
+      data[0].idSubsystem != GP
+    )
       return res.status(403).json("Você não tem acesso a esta página!");
     res.send(data);
   });
@@ -66,25 +87,27 @@ export const getMemberEvaluation = (req, res) => {
     if (err) return res.status(500).json(err);
     if (data.length === 0)
       return res.status(404).json("Nenhum membro encontrado.");
-    if (user.roleId === 1 && data[0].idRole === 4)
+    if (user.roleId === Roles.Capitao && data[0].idRole === Roles.Projetista)
       return res.status(403).json("Você não deve avaliar este(a) membro(a)!");
     if (
-      user.roleId === 2 &&
-      (data[0].idRole === 4 ||
-        (data[0].idRole === 3 && user.systemId != data[0].idSystem))
+      user.roleId === Roles.DiretorGeral &&
+      (data[0].idRole === Roles.Projetista ||
+        (data[0].idRole === Roles.Diretor && user.systemId != data[0].idSystem))
     )
       return res.status(403).json("Você não deve avaliar este(a) membro(a)!");
     if (
-      user.roleId === 3 &&
-      ((data[0].idRole === 4 && user.subsystemId != data[0].idSubsystem) ||
-        (data[0].idRole === 2 && user.systemId != data[0].idSystem))
+      user.roleId === Roles.Diretor &&
+      ((data[0].idRole === Roles.Projetista &&
+        user.subsystemId != data[0].idSubsystem) ||
+        (data[0].idRole === Roles.DiretorGeral &&
+          user.systemId != data[0].idSystem))
     )
       return res.status(403).json("Você não deve avaliar este(a) membro(a)!");
     if (
-      user.roleId === 4 &&
+      user.roleId === Roles.Projetista &&
       user.subsystemId != data[0].idSubsystem &&
-      user.subsystemId != 4 &&
-      data[0].idRole === 1
+      user.subsystemId != GP &&
+      data[0].idRole === Roles.Capitao
     )
       return res.status(403).json("Você não deve avaliar este(a) membro(a)!");
     res.send(data);

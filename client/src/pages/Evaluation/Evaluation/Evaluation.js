@@ -2,11 +2,11 @@ import { FormGroup, Label, Input, CardBody, Alert } from "reactstrap";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import jwtDecode from "jwt-decode";
-import axios from "axios";
 
 import { AuthContext } from "../../../context/authContexts";
 import NavbarComponent from "../../../components/Navbar";
 import "../../../css/styles.css";
+import { EvaluationService } from "../../../services/Evaluation";
 
 const Evaluation = () => {
   const { accessToken } = useContext(AuthContext);
@@ -23,44 +23,6 @@ const Evaluation = () => {
   const params = useParams();
   const id = params.id;
 
-  const fetchMember = () => {
-    axios
-      .post("http://localhost:8800/api/member/getMemberEvaluation", {
-        id: id,
-        user: user,
-      })
-      .then((res) => {
-        setMember(res.data[0]);
-      })
-      .catch((error) => {
-        navigate("/avaliacoes");
-      });
-  };
-
-  const fetchMessage = () => {
-    axios
-      .post("http://localhost:8800/api/grade/getMsg", {
-        id: id,
-        role: member.idRole,
-        user: user,
-      })
-      .then((res) => {
-        setMsg(res.data);
-      });
-  };
-
-  const fetchQuestions = () => {
-    axios
-      .post("http://localhost:8800/api/grade/getQuestions", {
-        id: id,
-        role: member.idRole,
-        user: user,
-      })
-      .then((res) => {
-        setQuestions(res.data);
-      });
-  };
-
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -71,28 +33,36 @@ const Evaluation = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:8800/api/grade/insertGrades", {
-        evaluatorId: user.id,
-        evaluatedId: member.idUser,
-        inputs: inputs,
-        visible: visible,
-      })
-      .then((res) => {
-        console.log("tenho que navegar para outra página!!");
-        navigate("/avaliacoes");
-      });
+    EvaluationService.insertEvaluation(
+      user.id,
+      member.idUser,
+      inputs,
+      visible
+    ).then(() => {
+      navigate("/avaliacoes");
+    });
   };
 
   useEffect(() => {
-    if (user.id) fetchMember();
+    if (user.id)
+      EvaluationService.fetchMember(id, user)
+        .then((res) => {
+          setMember(res.data[0]);
+        })
+        .catch(() => {
+          navigate("/avaliacoes");
+        });
   }, [user]);
 
   useEffect(() => {
     if (member.idUser && member.idUser === user.id) setSelfEvaluation(true);
     if (member.name) {
-      fetchQuestions();
-      fetchMessage();
+      EvaluationService.fetchQuestions(id, member.idRole, user).then((res) => {
+        setQuestions(res.data);
+      });
+      EvaluationService.fetchMessage(id, member.idRole, user).then((res) => {
+        setMsg(res.data);
+      });
     }
   }, [member]);
 

@@ -6,22 +6,23 @@ export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(
-    Cookies.get("accessToken") || null
+    localStorage.getItem("accessToken") || null
   );
 
   const login = async (inputs) => {
     const res = await axios.post(
-      "http://localhost:8800/api/auth/login",
+      "https://360backend2023.vercel.app/api/auth/login",
       inputs,
       {
         withCredentials: true,
       }
     );
+    localStorage.setItem("accessToken", res.data);
     setAccessToken(res.data);
   };
 
   const logout = () => {
-    Cookies.remove("accessToken");
+    localStorage.removeItem("accessToken");
   };
 
   return (

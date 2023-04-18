@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import jwtDecode from "jwt-decode";
-import axios from "axios";
 
 import { AuthContext } from "../../context/authContexts";
 import BarChart from "../../components/BarChartSystem";
 import NavbarComponent from "../../components/Navbar";
 import "../../css/styles.css";
-
 import team from "../../assets/team.png";
+import { SubsystemService } from "../../services/Subsystem";
 
 const Subsystem = () => {
   const { accessToken } = useContext(AuthContext);
@@ -21,46 +20,21 @@ const Subsystem = () => {
   const id = params.id;
   const navigate = useNavigate();
 
-  const fetchSubsystem = () => {
-    axios
-      .post("http://localhost:8800/api/subsystem/getSubsystem", {
-        id: id,
-        user: user,
-      })
-      .then((res) => {
-        setSubsystem(res.data[0]);
-      });
-  };
-
-  const fetchMembers = () => {
-    axios
-      .post("http://localhost:8800/api/member/getMemberBySubsystem", {
-        subsystem: id,
-      })
-      .then((res) => {
-        setMembers(res.data);
-      });
-  };
-
-  const fetchGrades = (id, user) => {
-    axios
-      .post("http://localhost:8800/api/grade/getSubsystemGrades", {
-        subsystem: id,
-        user: user,
-      })
-      .then((res) => {
-        setGrades(res.data);
-      })
-      .catch((err) => {
-        navigate("/perfil");
-      });
-  };
-
   useEffect(() => {
     if (user.id) {
-      fetchSubsystem();
-      fetchMembers();
-      fetchGrades(id, user);
+      SubsystemService.fetchSubsystem(id, user).then((res) => {
+        setSubsystem(res.data[0]);
+      });
+      SubsystemService.fetchMembers(id).then((res) => {
+        setMembers(res.data);
+      });
+      SubsystemService.fetchGrades(id, user)
+        .then((res) => {
+          setGrades(res.data);
+        })
+        .catch(() => {
+          navigate("/perfil");
+        });
     }
   }, [user]);
 

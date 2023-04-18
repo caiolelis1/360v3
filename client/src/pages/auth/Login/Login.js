@@ -18,7 +18,7 @@ const Login = () => {
     username: yup.string().required("Este campo é obrigatório"),
     password: yup
       .string()
-      .min(6, "A senha deve ter no mínimo 6 caracteres")
+      .min(4, "A senha deve ter no mínimo 4 caracteres")
       .required("Este campo é obrigatório"),
   });
 

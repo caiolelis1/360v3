@@ -1,15 +1,12 @@
 import React, { useEffect } from "react";
 
-const ShowFeedback = ({ texts, evaluators }) => {
-  useEffect(() => {
-    console.log(texts);
-  }, []);
+const ShowFeedback = ({ grades }) => {
   return (
     <div className="FeedbackText">
-      {texts &&
-        texts.map((text, i) => (
+      {grades &&
+        grades.map((grade) => (
           <p>
-            {evaluators[i]}: {text}
+            {grade.name}: {grade.grade}
           </p>
         ))}
     </div>
